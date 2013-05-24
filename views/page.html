@@ -1,0 +1,376 @@
+<!doctype html>
+<html>
+  
+  <head>
+    <title>Reverse Proxy Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="themes/cosmo/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.watable.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootbox.js"></script>
+    <script src="js/jquery.bootstrap-growl.js" type="text/javascript" charset="utf-8"></script>
+    <link rel='stylesheet' href='css/watable.css'/>
+	</head>
+  
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+				<a class="brand" href="javascript:history.go(0)"><i class="icon-fire icon-white"></i> Reverse Proxy Panel</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li>
+				<a href="javascript:void(0);" id="proxyheader"><span class="badge badge-warning"><i class="icon-user icon-white"></i>Proxys <span id="proxybadge">0</span></span></a>
+              </li>
+              <li>
+                <a href="javascript:void(0);" id="tunnelheader"><span class="badge badge-info"><i class="icon-tasks icon-white"></i>Tunnel <span id="tunnelbadge">0</span></span></a> 
+              </li>
+              <li>
+                <a href="/logout" class="active"><span class="badge badge-important"><i class="icon-off icon-white"></i>Logout</span></a> 
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+      <div class="tabbable">
+        <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs" id="navtabs">
+          <li class="active">
+            <a href="#tab1" data-toggle="tab">Clients</a> 
+          </li>
+          <li>
+            <a href="#tab2" data-toggle="tab">Tunnels</a> 
+          </li>
+          <li>
+            <a href="#tab3" data-toggle="tab">About</a> 
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <p>List of currently online proxys</p>
+            <div id="clienttable"></div>
+          </div>
+          <div class="tab-pane" id="tab2">
+            <p>List of currently active tunnels</p>
+						<div id="tunneltable"></div>
+          </div>
+          <div class="tab-pane" id="tab3">
+            <div class="hero-unit">
+              <h1>Reverse Proxy Panel</h1>
+              <p>Build with Delphi, Node.js and Bootstrap.</p>
+              <p><i class="icon-user"></i> Zephyr, 2013 <i class="icon-envelope"></i> 13zephyr37@mail.ru <i class="icon-globe"></i> secunet.cc</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+		
+		
+<!-- SCRIPT -->		
+<script type="text/javascript">
+$(document).ready(function () {
+	$("#proxyheader").click(function () {
+		$('#navtabs').find('li:eq(0) a').tab('show');
+	});
+
+	$("#tunnelheader").click(function () {
+		$('#navtabs').find('li:eq(1) a').tab('show');
+	});
+	////////////////
+
+    //CREATE CLIENTS TABLE
+    var waTable1 = $('#clienttable').WATable({
+        pageSize: 10, //Sets the initial pagesize
+        filter: true, //Show filter fields
+        columnPicker: true, //Show the columnPicker button
+        pageSizes: [1, 5, 10, 20, 100, 200], //Set custom pageSizes. Leave empty array to hide button.
+        hidePagerOnEmpty: true, //Removes the pager if data is empty.
+        preFill: true, //Initially fills the table with empty rows (as many as the pagesize).
+        types: { //Following are some specific properties related to the data types
+            string: {
+                placeHolder: "... " //What to say in the filter fields. Leave a space to have no text.
+            },
+            number: {
+                decimals: 1 //Sets decimal precision for float types
+            },
+            bool: {
+                //tooltip: " "
+            },
+            date: {
+                utc: true, //Show time as universal time, ie without timezones.
+                //format: 'yy/dd/MM',   //The format. See all possible formats here http://arshaw.com/xdate/#Formatting.
+                datePicker: true //Requires "Datepicker for Bootstrap" plugin (http://www.eyecon.ro/bootstrap-datepicker).
+            }
+        },
+        actions: { //This generates a button where you can add elements.
+            filter: true, //If true, the filter fields can be toggled visible and hidden.
+            columnPicker: true, //if true, the columnPicker can be toggled visible and hidden.
+            custom: [ //Add any other elements here. Here is a refresh and export example.
+                $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>'),
+                $('<a href="#" class="export_all"><i class="icon-share"></i>&nbsp;Command to all </a>'),
+                $('<a href="#" class="export_checked"><i class="icon-share"></i>&nbsp;Command to checked </a>'),
+                $('<a href="#" class="export_filtered"><i class="icon-share"></i>&nbsp;Command to filtered </a>')
+            ]
+        }
+    }).data('WATable');
+    //\\\\CREATE CLIENT TABLE
+
+    //CREATE TUNNELS TABLE
+    var waTable2 = $('#tunneltable').WATable({
+        pageSize: 10, //Sets the initial pagesize
+        filter: true, //Show filter fields
+        columnPicker: true, //Show the columnPicker button
+        pageSizes: [1, 5, 10, 20, 100, 200], //Set custom pageSizes. Leave empty array to hide button.
+        hidePagerOnEmpty: true, //Removes the pager if data is empty.
+        preFill: true, //Initially fills the table with empty rows (as many as the pagesize).
+        types: { //Following are some specific properties related to the data types
+            string: {
+                placeHolder: "... " //What to say in the filter fields. Leave a space to have no text.
+            },
+            number: {
+                decimals: 1 //Sets decimal precision for float types
+            },
+            bool: {
+                //tooltip: " "
+            },
+            date: {
+                utc: true, //Show time as universal time, ie without timezones.
+                //format: 'yy/dd/MM',   //The format. See all possible formats here http://arshaw.com/xdate/#Formatting.
+                datePicker: true //Requires "Datepicker for Bootstrap" plugin (http://www.eyecon.ro/bootstrap-datepicker).
+            }
+        },
+        actions: { //This generates a button where you can add elements.
+            filter: true, //If true, the filter fields can be toggled visible and hidden.
+            columnPicker: true, //if true, the columnPicker can be toggled visible and hidden.
+            custom: [ //Add any other elements here. Here is a refresh and export example.
+                $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>'),
+                $('<a href="#" class="export_all"><i class="icon-share"></i>&nbsp;Export all rows</a>'),
+                $('<a href="#" class="export_checked"><i class="icon-share"></i>&nbsp;Export checked rows</a>'),
+                $('<a href="#" class="export_filtered"><i class="icon-share"></i>&nbsp;Export filtered rows</a>')
+            ]
+        }
+    }).data('WATable'); //This step reaches into the html data property to get the actual WATable object. Important if you want a reference to it as we want here.
+    //\\\\CREATE TUNNEL TABLE
+
+    //CLIENTS ACTION MENU REFRESH HANDLER
+    $('#clienttable').on('click', '.refresh', function(e) {
+        e.preventDefault();
+        refreshtables(true);
+    });
+	//CLIENTS ACTION MENU HANDLER AKA COMMAND PARSER
+	$('#clienttable').on('click', '.export_checked, .export_filtered, .export_all', function(e) {
+		e.preventDefault();
+		var elem = $(e.target);
+		var data;
+		if (elem.hasClass('export_all')) data = waTable1.getData(false);
+		else if (elem.hasClass('export_checked')) data = waTable1.getData(true);
+		else if (elem.hasClass('export_filtered')) data = waTable1.getData(false, true);
+		if (data.rows.length == 0) {
+            $.bootstrapGrowl("<strong>Error:</strong> no rows selected", {
+                type: 'error', // (null, 'info', 'error', 'success'),
+                offset: {from: 'bottom', amount: 60},
+                delay: 2000
+            });
+			return;
+		}
+        //Ask which command to execute                //TODO: change it, this sucks.---v
+        var x = '<h3>Select command for ' + data.rows.length + ' clients</h3>' +
+                '<select id="cmdselect">' +
+                '<option value="export"><i class="icon-tasks">Export</option>' +
+                '<option value="restart">Restart</option>' +
+                '<option value="uninstall">Uninstall</option>' +
+                '<option value="close">Close</option>' +
+                '</select>';
+        bootbox.confirm(x, function(result) {
+            var cmd = $('#cmdselect').val();
+            //no cmd
+            if (result == false || cmd == '') return;
+            //CMD was export
+            if (cmd == 'export') {
+                var res = '';
+                for (var item in data.rows) {
+                    res = res + 'IP: ' + data.rows[item].ip + ' - Country: ' + data.rows[item].country + ' - Address: ' + data.rows[item].proxyport + ' - Auth: ' + data.rows[item].proxyauth + '\r\n';
+                }
+                //show export window
+                bootbox.alert('<h3>Copy to clipboard</h3><textarea id="copytext" class="input-block-level" rows="8"></textarea>');
+                $('#copytext').val(res);
+                $('#copytext').focus(function() {
+                    this.select();
+                });
+            }
+            //Other cmds
+            else if ($.inArray(cmd, ['close','restart', 'uninstall']) > -1) {
+                $.post("/setclients.json",
+                    { 'option' : cmd, 'clients' : data.rows },
+                    function(data){
+                        //return function
+                        if (data.status == 'ok') {
+                            $.bootstrapGrowl("<strong>Success:</strong> Command sent", {
+                                type: 'success', // (null, 'info', 'error', 'success'),
+                                offset: {from: 'bottom', amount: 60},
+                                delay: 2000});
+                        } else {
+                            $.bootstrapGrowl("<strong>Error:</strong> Command could not be sent", {
+                                type: 'error', // (null, 'info', 'error', 'success'),
+                                offset: {from: 'bottom', amount: 60},
+                                delay: 2000});
+                        }
+                        setTimeout(
+                                function() { refreshtables(true); },
+                                1000); //refresh tables after command got exectued  //delay so changes are actually covered
+                    }
+                );
+
+            }
+        });
+		console.log(data.rows.length + ' rows returned');
+		console.log(data);
+	});
+    //\\\\CLIENTS ACTION MENU HANDLER
+
+
+   //Load tables data
+    function refreshtables(showmessage) {
+        //LOAD TUNNEL DATA
+        $.getJSON('/gettunnels.json', function (res) {
+            $("#tunnelbadge").text(res.length); //update header information
+            //Create the returning object. Besides cols and rows, you can also pass any other object you would need later on.
+            var cols = {
+                id: {
+                    index: 1, //The order this column should appear in the table
+                    type: "number", //The type. Possible are string, number, bool, date(in milliseconds).
+                    friendly: "<i class='icon-user'></i>", //Name that will be used in header. Can also be any html as shown here.
+                    width: 10,
+                    format: "<a href='#' class='userId' target='_blank'>{0}</a>", //Used to format the data anything you want. Use {0} as placeholder for the actual data.
+                    unique: true //This generates a checkbox to each row. Be certain the values are really unique or weird things will happen.
+                },
+                ip: {
+                    index: 2,
+                    type: "string",
+                    friendly: "IP",
+                    tooltip: "The target IP of the tunnel" //Help text for this column that is visible when hoovering the generated icon.
+                },
+                port: {
+                    index: 3,
+                    type: "number",
+                    friendly: "Port"
+                },
+                bytesread: {
+                    index: 4,
+                    type: "number",
+                    friendly: "Received"
+                },
+                byteswritten: {
+                    index: 5,
+                    type: "number",
+                    friendly: "Sent"
+                },
+                opensince: {
+                    index: 6,
+                    type: "date", //Don't forget dates are expressed in milliseconds
+                    friendly: "Open since",
+                    sortOrder: "asc" //Data will initially be sorted by this column. Possible are "asc" or "desc"
+                }
+            };
+
+            var data = {
+                cols: cols,
+                rows: res
+            };
+            waTable2.setData(data);
+        });
+        //\\\\LOAD TUNNEL DATA
+
+        //LOAD CLIENTS DATA
+        $.getJSON('/getclients.json', function (res) {
+            $("#proxybadge").text(res.length); //update header information
+            //Create the returning object. Besides cols and rows, you can also pass any other object you would need later on.
+            var cols = {
+                id: {
+                    index: 1, //The order this column should appear in the table
+                    type: "number", //The type. Possible are string, number, bool, date(in milliseconds).
+                    friendly: "<i class='icon-user'></i>", //Name that will be used in header. Can also be any html as shown here.
+                    width: 20,
+                    format: "<a href='javascript:void(0);' class='clientuserId'>{0}</a>", //Used to format the data anything you want. Use {0} as placeholder for the actual data.
+                    unique: true //This generates a checkbox to each row. Be certain the values are really unique or weird things will happen.
+                },
+                ip: {
+                    index: 2,
+                    type: "string",
+                    friendly: "IP",
+                    tooltip: "The clients IP address" //Help text for this column that is visible when hoovering the generated icon.
+                },
+                country: {
+                    index: 3,
+                    type: "string",
+                    friendly: "Country",
+                    format: "<img src='/img/flags/{0}.gif'/>",
+                    tooltip: "Filterable by their two digits country code. E. g. de = Germany"
+                },
+                info: {
+                    index: 4,
+                    type: "string",
+                    friendly: "User@PC"
+                },
+                onlinetime: {
+                    index: 5,
+                    type: "date", //Don't forget dates are expressed in milliseconds
+                    friendly: "Online since",
+                    sortOrder: "asc" //Data will initially be sorted by this column. Possible are "asc" or "desc"
+                },
+                proxyport: {
+                    index: 6,
+                    type: "string",
+                    friendly: "Proxy Info"
+                },
+                proxyauth: {
+                    index: 7,
+                    type: "string",
+                    friendly: "Proxy Auth"
+                }
+            };
+
+            var data = {
+                cols: cols,
+                rows: res
+            };
+            waTable1.setData(data);                                           //eq(1)[0].value = '=7099'
+
+            //Event for click on ID link to filter all tunnels by this client
+            $('#clienttable').WATable().find('.clientuserId').live('click', function() {
+                var id = $(this).text();
+                console.log($('#tunneltable').WATable().find('input.filter').eq(1).val('=' + id).trigger('keyup'));
+                $('#navtabs a:eq(1)').tab('show');
+            });
+
+            //show finished message
+            if (showmessage) $.bootstrapGrowl("<strong>Info:</strong> Tables updated", {
+                type: 'info', // (null, 'info', 'error', 'success'),
+                offset: {from: 'bottom', amount: 60},
+                delay: 2000});
+        });
+        //\\\\LOAD CLIENTS DATA
+    }
+    refreshtables(); //load table data on page load
+
+});
+
+</script>
+		
+		
+		
+  </body>
+
+</html>

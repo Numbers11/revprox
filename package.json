@@ -1,0 +1,29 @@
+{
+  "name": "revprox",
+  "version": "0.0.1",
+  "description": "Reverse Proxy C&C system",
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "~0.8.3",
+    "ejs-locals": "~0.2.5",
+    "express": "~3.0.0rc4",
+    "geoip-lite": "~1.0.10",
+    "async": "~0.2.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Numbers11/revprox.git"
+  },
+  "author": "Zephyr",
+  "license": "GPL",
+  "keywords": [
+    "node.js",
+    "reverse",
+    "proxy",
+    "server"
+  ]
+}

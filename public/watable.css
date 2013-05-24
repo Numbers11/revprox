@@ -1,0 +1,120 @@
+.watable * {
+  white-space: nowrap;
+  font-size: 12px !important;
+}
+
+.watable p {
+  margin: 0;
+}
+.watable td,
+.watable th {
+  line-height: 18px;
+}
+
+.watable i {
+  margin: 0 0 0 2px;
+  opacity: 0.5;
+}
+
+.watable tfoot .btn {
+  height: 34px;
+}
+
+.watable span.filter {
+  background-color: #999;
+}
+
+.watable .indeterminate {
+  opacity: 0.4;
+}
+
+.watable .columnpicker li,
+.watable .actions li {
+  padding-left: 5px;
+}
+
+.watable .btn-toolbar {
+  margin: 2px 0 0 0;
+}
+
+.watable .btn-toolbar .btn-group {
+  vertical-align: top;
+}
+
+.watable .pagination {
+  margin: 0;
+  height: 34px;
+}
+
+.watable .pagination a {
+  line-height: 24px;
+}
+
+.watable input[type=checkbox] {
+  margin: 0;
+  padding: 0;
+  height: 13px;
+}
+
+.watable input[type=text].filter {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+  width: 80px;
+  float: left;
+}
+
+.watable .date-wrap {
+  width: 100%;
+  min-width: 115px;
+}
+
+.watable .dateWrap .add-on {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+.watable .dropdown-menu {
+  max-height: 250px;
+  overflow: auto;
+}
+
+.watable .actions a {
+  padding: 0;
+  margin: 0;
+}
+
+
+
+/* Only for demo purposes */
+.watable div.green {
+  background: -moz-linear-gradient(left, rgba(128, 232, 126, 0) 0%, rgba(30, 154, 41, 1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(128, 232, 126, 0)), color-stop(100%, rgba(30, 154, 41, 1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, rgba(128, 232, 126, 0) 0%, rgba(30, 154, 41, 1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, rgba(128, 232, 126, 0) 0%, rgba(30, 154, 41, 1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, rgba(128, 232, 126, 0) 0%, rgba(30, 154, 41, 1) 100%); /* IE10+ */
+  background: linear-gradient(to right, rgba(128, 232, 126, 0) 0%, rgba(30, 154, 41, 1) 100%); /* W3C */
+}
+
+.watable div.yellow {
+  background: -moz-linear-gradient(left, rgba(232, 229, 126, 0) 0%, rgba(145, 154, 30, 1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(232, 229, 126, 0)), color-stop(100%, rgba(145, 154, 30, 1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, rgba(232, 229, 126, 0) 0%, rgba(145, 154, 30, 1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, rgba(232, 229, 126, 0) 0%, rgba(145, 154, 30, 1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, rgba(232, 229, 126, 0) 0%, rgba(145, 154, 30, 1) 100%); /* IE10+ */
+  background: linear-gradient(to right, rgba(232, 229, 126, 0) 0%, rgba(145, 154, 30, 1) 100%); /* W3C */
+}
+
+.watable div.red {
+  background: -moz-linear-gradient(left, rgba(232, 126, 126, 0) 0%, rgba(154, 43, 30, 1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(232, 126, 126, 0)), color-stop(100%, rgba(154, 43, 30, 1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, rgba(232, 126, 126, 0) 0%, rgba(154, 43, 30, 1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, rgba(232, 126, 126, 0) 0%, rgba(154, 43, 30, 1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, rgba(232, 126, 126, 0) 0%, rgba(154, 43, 30, 1) 100%); /* IE10+ */
+  background: linear-gradient(to right, rgba(232, 126, 126, 0) 0%, rgba(154, 43, 30, 1) 100%); /* W3C */
+}
